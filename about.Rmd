@@ -1,0 +1,9 @@
+---
+title: "Database in R"
+---
+
+R can connect easily to many relational databases like MySql, Oracle, Sql server etc. and fetch records from them as a data frame. Once the data is available in the R environment, it becomes a normal R data set and can be manipulated or analyzed using all the powerful packages and functions.
+
+## About the Author
+
+Salman Virani, the author of this work is a student of MSc Information Resource Management at Nanjing University. For more tutorials on the use of R Language for Data Science and Machine Learning, follow his **[Github](https://github.com/virani1997)** and **[Twitter](https://twitter.com/SalmanVirani6)** profiles.

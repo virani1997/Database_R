@@ -1,0 +1,79 @@
+---
+title: " Working with Database in R"
+---
+
+Want to become an skilled data scientist? If Yes, then you should learn to work with the databases in R. Comma Separated Values or CSV are the most common type of data formats we work with as a beginner. However, there is so much a single csv file can handle. When working with large datasets, often we will encountered data which will be stored in a database. For working with the database, skills of SQL language is required. However, our main goal today will be learn how we can load a data into R from a database before we can run our analysis. There are alot of databases in the market and alot of R packages to deal with those databases. Here, we will work SQLite. The packages that we require are **RSQLite** and **DBI**. 
+
+```{r comment=""}
+library(RSQLite)
+library(DBI)
+```
+
+Lets work with one of the built in SQLite database. Before we can read any sort of data from any database, we need to create a connection with the database.
+
+```{r comment=""}
+db <- datasetsDb()
+```
+
+We can look at all the tables that are present inside the database we have named as **'db'** above.
+
+```{r comment=""}
+dbListTables(db)
+```
+
+These are all the datasets that we can work on. If you a bit of experience in machine learning than you will be familiar with the **"iris"** dataset. Lets read the iris dataset.  Our first argument in the below function is the database connection we created earlier and the second argument is the dataset we want to extract. I hope things are getting in place now and you got the reason behind building the database connection earlier. 
+
+```{r comment=""}
+iris_db <- dbReadTable(db, "iris")
+str(iris)
+```
+
+We have assigned the extract dataset from our database to a new variable called **iris_db**. As we can see, the structure of **iris_db** is a data frame. When we extract a table or data set from a database in R, we get a data frame, something we love to work with in R. 
+
+**iris** is one of the very popular datasets used for learning data science and machine learning. R also has a built **iris** data set. lets load **iris** dataset directly from R and see if the two data sets are similar. 
+
+```{r comment=""}
+data("iris")
+str(iris)
+```
+
+Both the datasets have 150 observations and 5 variables. We can also select a part of the table based on some condition. For instance, instead of complete 150 observations, I only want to extract first 100 observations.
+
+```{r comment=""}
+iris_db_100 <- dbGetQuery(db,"SELECT * FROM iris LIMIT 100")
+str(iris_db_100)
+```
+
+Most importantly, when you are working with your database connection, never forget to disconnect. 
+
+```{r comment=""}
+dbDisconnect(db)
+```
+
+So, we have seen how to work with in built database. Working with our own database is also very similar. First, we need to connect with the database. We will use the **dbconnect** function in which our first argument is the driver and the second argument is our database. Make sure the database exists inside your working directory or else provide the complete path. 
+
+```{r comment=""}
+db3 <- dbConnect(dbDriver("SQLite"), "database_ipl.sqlite")
+```
+
+Now same as before, we will see all the tables we have inside the database. 
+
+```{r comment=""}
+tables2 <- dbListTables(db3)
+tables2
+```
+
+We have 23 tables in this database. Like before, we will use the **dbGetQuery** function to extract the table as a data frame into R. We will extract **Country** table.
+
+```{r comment=""}
+country <- dbReadTable(db3, "Country")
+country
+```
+
+Just like we extracted **Country** table, we can extract any other table with the same code, only the second argument changes. Extracted data becomes a data frame in R, on which we can run our analysis as usual. Finally, lets disconnect the database.
+
+```{r comment=""}
+dbDisconnect(db3)
+```
+
+I hope you have enjoyed this short tutorial. To learn more and get new content, follow my **[Github](https://github.com/virani1997)** and **[Twitter](https://twitter.com/SalmanVirani6)** profiles. 
